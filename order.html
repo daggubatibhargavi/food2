@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Now with Cart</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      #orderStatus {
+        margin-top: 20px;
+        font-size: 18px;
+        color: green;
+      }
+      #cartItems {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Menu</h2>
+    <button onclick="addToCart('lollipops', 170)">Add lollipops ($170)</button>
+    <button onclick="addToCart('chicken tikka', 250)">
+      Add chicken tikka ($250)
+    </button>
+    <button onclick="addToCart('cripsy corn', 170)">
+      Add cripsy corn ($170)
+    </button>
+    <button onclick="addToCart('mushroom 65', 250)">
+      Add mushroom 65 ($250)
+    </button>
+    <button onclick="addToCart('fried prawn', 170)">
+      Add fried prawn ($170)
+    </button>
+    <button onclick="addToCart('fish curry', 250)">fish curry ($250)</button>
+    <button onclick="addToCart('mutton biriyani', 170)">
+      Add mutton biriyani ($170)
+    </button>
+    <button onclick="addToCart('mushroom biriyani', 250)">
+      Add mushroom biriyani($250)
+    </button>
+    <button onclick="addToCart('garlic noodles', 170)">
+      Add garlic noodles ($170)
+    </button>
+    <button onclick="addToCart('cripsy chilli egg noodles', 250)">
+      Add cripsy chilli egg noodles ($250)
+    </button>
+    <button onclick="addToCart('avocado salad', 170)">
+      Add avocado salad($170)
+    </button>
+    <button onclick="addToCart('chicken salad', 250)">
+      Add chicken salad($250)
+    </button>
+    <button onclick="addToCart('carameltoppericecream', 170)">
+      Add carameltoppericecream ($170)
+    </button>
+    <button onclick="addToCart('block forest', 250)">
+      Add block forest($250)
+    </button>
+    <button onclick="addToCart('vegtable soup', 170)">
+      Add vegtable soup ($170)
+    </button>
+    <button onclick="addToCart('minestone soup', 250)">
+      Add minestone soup ($250)
+    </button>
+
+    <h3>Cart</h3>
+    <div id="cartItems">No items in cart</div>
+
+    <button id="orderNow">Order Now</button>
+
+    <p id="orderStatus"></p>
+
+    <script>
+      const orderButton = document.getElementById("orderNow");
+      const orderStatus = document.getElementById("orderStatus");
+      const cartItems = document.getElementById("cartItems");
+
+      let cart = [];
+
+      function addToCart(item, price) {
+        cart.push({ item, price });
+        displayCart();
+      }
+
+      function displayCart() {
+        if (cart.length === 0) {
+          cartItems.textContent = "No items in cart";
+        } else {
+          cartItems.innerHTML = "";
+          let total = 0;
+          for (let cartItem of cart) {
+            cartItems.innerHTML += `${cartItem.item} - $${cartItem.price}<br>`;
+            total += cartItem.price;
+          }
+          cartItems.innerHTML += `<br>Total: $${total}`;
+        }
+      }
+
+      orderButton.addEventListener("click", function () {
+        if (cart.length === 0) {
+          orderStatus.textContent =
+            "Your cart is empty. Please add items to the cart.";
+        } else {
+          selectPaymentMethod();
+        }
+      });
+
+      function selectPaymentMethod() {
+        const paymentMethod = prompt(
+          "Select payment method: \n1. PayPal\n2. MasterCard\n3. Visa\n4. American Express"
+        );
+
+        if (paymentMethod === "1" || paymentMethod.toLowerCase() === "paypal") {
+          processPayment("PayPal");
+        } else if (
+          paymentMethod === "2" ||
+          paymentMethod.toLowerCase() === "mastercard"
+        ) {
+          processPayment("MasterCard");
+        } else if (
+          paymentMethod === "3" ||
+          paymentMethod.toLowerCase() === "visa"
+        ) {
+          processPayment("Visa");
+        } else if (
+          paymentMethod === "4" ||
+          paymentMethod.toLowerCase() === "american express"
+        ) {
+          processPayment("American Express");
+        } else {
+          orderStatus.textContent =
+            "Invalid payment method selected. Please try again.";
+        }
+      }
+
+      function processPayment(method) {
+        orderButton.disabled = true;
+        orderButton.textContent = `Processing payment with ${method}...`;
+
+        setTimeout(() => {
+          orderStatus.textContent = `Your order has been placed successfully using ${method}!`;
+          orderButton.textContent = "Order Placed";
+        }, 2000);
+      }
+    </script>
+  </body>
+</html>
