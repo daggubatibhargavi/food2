@@ -23,11 +23,13 @@ wcuCards.forEach((card) => {
     // p.style.color = "black";
   });
 });
+document.addEventListener("DOMContentLoaded", function () {
+  const viewMenuBtn = document.getElementById("viewMenuBtn");
+  const exploreMenuSection = document.getElementById("exploremenusection");
 
-const viewMenuBtn = document.getElementById("viewMenuBtn");
-const exploreMenuSection = document.getElementById("exploremenusection");
-viewMenuBtn.addEventListener("click", function () {
-  exploreMenuSection.scrollIntoView({ behavior: "smooth" });
+  viewMenuBtn.addEventListener("click", function () {
+    exploreMenuSection.scrollIntoView({ behavior: "smooth" });
+  });
 });
 
 const redeemButton = document.getElementById("redeemButton");
@@ -68,4 +70,56 @@ function closePopup() {
   popupContainer.classList.add("hidden");
 
   videoFrame.src = "";
+}
+// function submitReview() {
+//   const rating = document.getElementById("rating").value;
+
+//   localStorage.setItem("userRating", rating);
+//   console.log(`Rating submitted: ${rating}`);
+
+//   const reviewDiv = document.querySelector(".review");
+//   reviewDiv.innerHTML = "";
+
+//   reviewDiv.textContent = "Thank you for your rating!";
+// }
+
+// let submitRating = document.getElementById("submitRating");
+// submitRating.addEventListener("click", (e) => {
+//   e.preventDefault();
+//   let ratingValue = document.getElementById("rating").value;
+//   localStorage.setItem("userRating", ratingValue);
+
+//   let message = document.querySelector(".review");
+//   message.textContent = "thanks for your submission";
+// });
+document.querySelectorAll(".menu-item-card").forEach((card) => {
+  let ratingInput = card.querySelector(".rating-input");
+  let submitButton = card.querySelector(".submit-rating");
+
+  submitButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    let ratingValue = ratingInput.value;
+
+    if (ratingValue >= 1 && ratingValue <= 5) {
+      const reviewDiv = card.querySelector(".review");
+      reviewDiv.innerHTML = "";
+      reviewDiv.innerHTML = `<p>Thank you for your rating!</p>`;
+      localStorage.setItem("rating", ratingValue);
+    }
+  });
+});
+
+// let menuItemLink = document
+//   .querySelector(".menu-item-link")
+//   .addEventListener("click", () => {
+//     window.location.href = "./viewall.html";
+//   });
+
+function viewAll(event, category) {
+  event.preventDefault();
+
+  // bhargavi(category);
+  console.log(category);
+  localStorage.setItem("category", category);
+  window.location.href = "./viewall.html";
 }

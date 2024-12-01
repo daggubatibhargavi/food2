@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="./view.html" />
+    <!-- <style>
+      #viewContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .card {
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 150px;
+        text-align: center;
+      }
+      .card img {
+        width: 100%;
+        height: auto;
+      }
+    </style> -->
+  </head>
+  <body>
+    <!-- <a href="./view.html"></a> -->
+    <div id="viewContainer"></div>
+    <div id="menuContainer"></div>
+    <script>
+      function displayItems() {
+        let cartData = localStorage.getItem("cart");
+        console.log(cartData);
+        let viewData = JSON.parse(cartData) || [];
+        console.log("Parsed Data:", viewData);
+
+        let viewContainer = document.getElementById("viewContainer");
+        viewContainer.innerHTML = "";
+
+        viewData.forEach((item) => {
+          let card = document.createElement("div");
+          card.innerHTML = `
+    <img src="${item.Image}"/>
+    <h3>${item.Name}</h3>
+    <p>Price: ${item.price}</p>
+  `;
+
+          viewContainer.appendChild(card);
+          // document.body.appendChild(viewContainer);
+        });
+        console.log("Items rendered:", viewData.length);
+      }
+      displayItems();
+    </script>
+    <script src="./view.js"></script>
+  </body>
+</html>

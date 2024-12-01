@@ -3,111 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Order Now with Cart</title>
+    <title>Order Page</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin-top: 50px;
+      .bg-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
       }
       button {
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
+        width: 250px;
+        background-color: darkcyan;
+        color: white;
       }
       #orderStatus {
-        margin-top: 20px;
-        font-size: 18px;
-        color: green;
-      }
-      #cartItems {
-        margin-top: 20px;
+        color: indianred;
       }
     </style>
   </head>
   <body>
-    <h2>Menu</h2>
-    <button onclick="addToCart('lollipops', 170)">Add lollipops ($170)</button>
-    <button onclick="addToCart('chicken tikka', 250)">
-      Add chicken tikka ($250)
-    </button>
-    <button onclick="addToCart('cripsy corn', 170)">
-      Add cripsy corn ($170)
-    </button>
-    <button onclick="addToCart('mushroom 65', 250)">
-      Add mushroom 65 ($250)
-    </button>
-    <button onclick="addToCart('fried prawn', 170)">
-      Add fried prawn ($170)
-    </button>
-    <button onclick="addToCart('fish curry', 250)">fish curry ($250)</button>
-    <button onclick="addToCart('mutton biriyani', 170)">
-      Add mutton biriyani ($170)
-    </button>
-    <button onclick="addToCart('mushroom biriyani', 250)">
-      Add mushroom biriyani($250)
-    </button>
-    <button onclick="addToCart('garlic noodles', 170)">
-      Add garlic noodles ($170)
-    </button>
-    <button onclick="addToCart('cripsy chilli egg noodles', 250)">
-      Add cripsy chilli egg noodles ($250)
-    </button>
-    <button onclick="addToCart('avocado salad', 170)">
-      Add avocado salad($170)
-    </button>
-    <button onclick="addToCart('chicken salad', 250)">
-      Add chicken salad($250)
-    </button>
-    <button onclick="addToCart('carameltoppericecream', 170)">
-      Add carameltoppericecream ($170)
-    </button>
-    <button onclick="addToCart('block forest', 250)">
-      Add block forest($250)
-    </button>
-    <button onclick="addToCart('vegtable soup', 170)">
-      Add vegtable soup ($170)
-    </button>
-    <button onclick="addToCart('minestone soup', 250)">
-      Add minestone soup ($250)
-    </button>
-
-    <h3>Cart</h3>
-    <div id="cartItems">No items in cart</div>
-
-    <button id="orderNow">Order Now</button>
-
-    <p id="orderStatus"></p>
+    <div class="bg-container">
+      <h1>Your Order</h1>
+      <div id="cartItems"></div>
+      <button id="orderButton">Place Order</button>
+      <div id="orderStatus"></div>
+    </div>
 
     <script>
-      const orderButton = document.getElementById("orderNow");
-      const orderStatus = document.getElementById("orderStatus");
-      const cartItems = document.getElementById("cartItems");
-
-      let cart = [];
-
-      function addToCart(item, price) {
-        cart.push({ item, price });
-        displayCart();
-      }
+      let cart = JSON.parse(localStorage.getItem("cart")) || {};
 
       function displayCart() {
+        const cartItemsContainer = document.getElementById("cartItems");
+        cartItemsContainer.innerHTML = "";
+
         if (cart.length === 0) {
-          cartItems.textContent = "No items in cart";
-        } else {
-          cartItems.innerHTML = "";
-          let total = 0;
-          for (let cartItem of cart) {
-            cartItems.innerHTML += `${cartItem.item} - $${cartItem.price}<br>`;
-            total += cartItem.price;
-          }
-          cartItems.innerHTML += `<br>Total: $${total}`;
+          cartItemsContainer.textContent = "No items in cart";
+          return;
         }
+
+        cartItemsContainer.innerHTML = "";
+
+        let totalAmount = 0;
+
+        for (const itemId in cart) {
+          const item = cart[itemId];
+
+          console.log(`Item ID: ${itemId}, Item:`, item);
+
+          console.log(`Processing item:`, item);
+
+          const price = Number(item.price.replace("$", "")) || 1;
+          const quantity = Number(item.quantity) || 1;
+
+          cartItemsContainer.innerHTML += `<p>${item.Name} - $${price} x ${quantity}</p>`;
+
+          totalAmount += price * quantity;
+        }
+
+        cartItemsContainer.innerHTML += `<h3>Total: $${totalAmount}</h3>`;
       }
 
+      displayCart();
+
+      const orderButton = document.getElementById("orderButton");
       orderButton.addEventListener("click", function () {
         if (cart.length === 0) {
-          orderStatus.textContent =
+          document.getElementById("orderStatus").textContent =
             "Your cart is empty. Please add items to the cart.";
         } else {
           selectPaymentMethod();
@@ -137,7 +98,7 @@
         ) {
           processPayment("American Express");
         } else {
-          orderStatus.textContent =
+          document.getElementById("orderStatus").textContent =
             "Invalid payment method selected. Please try again.";
         }
       }
@@ -147,8 +108,14 @@
         orderButton.textContent = `Processing payment with ${method}...`;
 
         setTimeout(() => {
-          orderStatus.textContent = `Your order has been placed successfully using ${method}!`;
+          document.getElementById(
+            "orderStatus"
+          ).textContent = `Your order has been placed successfully using ${method}!`;
           orderButton.textContent = "Order Placed";
+
+          localStorage.removeItem("cart");
+          cart = {};
+          displayCart();
         }, 2000);
       }
     </script>
