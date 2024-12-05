@@ -31,25 +31,32 @@
       function displayItems() {
         let cartData = localStorage.getItem("cart");
         console.log(cartData);
-        let viewData = JSON.parse(cartData) || [];
-        console.log("Parsed Data:", viewData);
+        let viewData;
+        try {
+          viewData = JSON.parse(cartData); // Try to parse the data
+          console.log("Parsed Data:", viewData);
+        } catch (error) {
+          console.error("Error parsing data from localStorage:", error);
+          return;
+        }
 
-        let viewContainer = document.getElementById("viewContainer");
-        viewContainer.innerHTML = "";
+          let viewContainer = document.getElementById("viewContainer");
+          viewContainer.innerHTML = "";
 
-        viewData.forEach((item) => {
-          let card = document.createElement("div");
-          card.innerHTML = `
-    <img src="${item.Image}"/>
-    <h3>${item.Name}</h3>
-    <p>Price: ${item.price}</p>
-  `;
+          viewData.forEach((item) => {
+            let card = document.createElement("div");
+            card.innerHTML = `
+        <img src="${item.Image}"/>
+        <h3>${item.Name}</h3>
+        <p>Price: ${item.price}</p>
+      `;
 
-          viewContainer.appendChild(card);
-          // document.body.appendChild(viewContainer);
-        });
-        console.log("Items rendered:", viewData.length);
-      }
+            viewContainer.appendChild(card);
+            // document.body.appendChild(viewContainer);
+          });
+          console.log("Items rendered:", viewData.length);
+        }
+      
       displayItems();
     </script>
     <script src="./view.js"></script>

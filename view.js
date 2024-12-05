@@ -355,19 +355,14 @@ bhargavi(category);
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function displayMenuItems(category, items) {
-  console.log(category, items);
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let cart = JSON.parse(localStorage.getItem("cart"));
   const container = document.getElementById("menuContainer");
-  console.log(container);
-  container.innerHTML = "";
-  console.log(container);
+  container.innerHTML = ""; // Clear previous content
 
-  const categoryTitle = document.createElement("h2");
-  categoryTitle.textContent = category;
-  container.appendChild(categoryTitle);
-
+  // Iterate over items to display them
   items.forEach((item) => {
     const itemCard = document.createElement("div");
+    itemCard.style.marginTop = "30px";
 
     const itemImage = document.createElement("img");
     itemImage.src = item.Image;
@@ -381,36 +376,52 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const itemPrice = document.createElement("p");
     itemPrice.textContent = `Price: ${item.price}`;
 
-    // const itemId = item.id;
-
     const quantity = document.createElement("span");
-    quantity.textContent = cart[item.id] ? cart[item.id].quantity : 1;
+    quantity.textContent = cart[item.id]?.quantity || 1;
+    quantity.style.margin = "0 10px";
 
     const addButton = document.createElement("button");
     addButton.textContent = "+";
     addButton.addEventListener("click", () => {
-      addToCart(item);
-      quantity.textContent = cart[item.id] ? cart[item.id].quantity : 1;
+      if (!cart[item.id]) {
+        cart[item.id] = { quantity: 0 };
+      }
+      cart[item.id].quantity++;
+      quantity.textContent = cart[item.id].quantity;
+      localStorage.setItem("cart", JSON.stringify(cart));
     });
 
     const removeButton = document.createElement("button");
     removeButton.textContent = "-";
     removeButton.addEventListener("click", () => {
-      removeFromCart(item);
-      quantity.textContent = cart[item.id] ? cart[item.id].quantity : 1;
+      if (cart[item.id]) {
+        cart[item.id].quantity--;
+        if (cart[item.id].quantity <= 0) {
+          delete cart[item.id];
+          quantity.textContent = 0;
+        } else {
+          quantity.textContent = cart[item.id].quantity;
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
     });
 
     const buyNow = document.createElement("button");
     buyNow.textContent = "Buy Now";
     buyNow.style.marginLeft = "70px";
-
     buyNow.addEventListener("click", () => {
       window.location.href = "./order.html";
     });
 
-    container.style.cssText = `display: flex;flex-wrap: wrap;gap: 20px;width:100%;margin: 40px auto;height:auto`;
+    container.style.cssText = `
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      width: 100%;
+      margin: 100px auto;
+      height: auto;
+    `;
 
-    container.appendChild(itemCard);
     itemCard.appendChild(itemImage);
     itemCard.appendChild(itemName);
     itemCard.appendChild(itemPrice);
@@ -418,6 +429,8 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
     itemCard.appendChild(quantity);
     itemCard.appendChild(addButton);
     itemCard.appendChild(buyNow);
+
+    container.appendChild(itemCard);
   });
 }
 
@@ -441,26 +454,7 @@ function bhargavi(category) {
     displayMenuItems("Soups", soups);
   }
 }
-
-function addToCart(item) {
-  if (!cart[item.id]) {
-    cart[item.id] = { ...item, quantity: 1 };
-  }
-  cart[item.id].quantity++;
-  updateLocalStorage();
-}
-
-function removeFromCart(item) {
-  if (cart[item.id]) {
-    cart[item.id].quantity--;
-    if (cart[item.id].quantity <= 1) {
-      delete cart[item.id];
-    }
-    updateLocalStorage();
-  }
-}
-
-function updateLocalStorage() {
-  localStorage.setItem("cart", JSON.stringify(cart));
-  console.log(localStorage.getItem("cart"));
-}
+// let category = localStorage.getItem("category");
+// bhargavi(category);
+localStorage.setItem("cart", JSON.stringify(cart));
+// console.log(localStorage.getItem("cart"));
