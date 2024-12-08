@@ -350,16 +350,27 @@ const soups = [
 ];
 // container.innerHTML = "";
 // localStorage.getItem("category");
+// function updateCartIconCount() {
+//   // const cart = JSON.parse(localStorage.getItem("cart")) || {};
+//   const cartCountElement = document.getElementById("cart-count");
+
+//   let totalQuantity = 0;
+//   for (let itemId in cart) {
+//     totalQuantity += cart[itemId].quantity;
+//   }
+//   cartCountElement.textContent = totalQuantity;
+// }
+
 let category = localStorage.getItem("category");
 bhargavi(category);
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let cart = JSON.parse(localStorage.getItem("cart")) || {};
 
 function displayMenuItems(category, items) {
-  let cart = JSON.parse(localStorage.getItem("cart"));
+  let cart = JSON.parse(localStorage.getItem("cart")) || {};
   const container = document.getElementById("menuContainer");
-  container.innerHTML = ""; // Clear previous content
+  container.innerHTML = "";
 
-  // Iterate over items to display them
   items.forEach((item) => {
     const itemCard = document.createElement("div");
     itemCard.style.marginTop = "30px";
@@ -376,19 +387,22 @@ function displayMenuItems(category, items) {
     const itemPrice = document.createElement("p");
     itemPrice.textContent = `Price: ${item.price}`;
 
-    const quantity = document.createElement("span");
-    quantity.textContent = cart[item.id]?.quantity || 1;
-    quantity.style.margin = "0 10px";
+    const quantityDisplay = document.createElement("span");
+    quantityDisplay.textContent = cart[item.id]?.quantity || 1;
+    quantityDisplay.style.margin = "0 10px";
 
     const addButton = document.createElement("button");
     addButton.textContent = "+";
     addButton.addEventListener("click", () => {
       if (!cart[item.id]) {
-        cart[item.id] = { quantity: 0 };
+        cart[item.id] = { quantity: 1 };
       }
       cart[item.id].quantity++;
-      quantity.textContent = cart[item.id].quantity;
+      quantityDisplay.textContent = cart[item.id].quantity;
+      console.log(cart[item.id].quantity);
+
       localStorage.setItem("cart", JSON.stringify(cart));
+      // updateCartIconCount();
     });
 
     const removeButton = document.createElement("button");
@@ -398,18 +412,19 @@ function displayMenuItems(category, items) {
         cart[item.id].quantity--;
         if (cart[item.id].quantity <= 0) {
           delete cart[item.id];
-          quantity.textContent = 0;
+          quantityDisplay.textContent = "0";
         } else {
-          quantity.textContent = cart[item.id].quantity;
+          quantityDisplay.textContent = cart[item.id].quantity;
         }
         localStorage.setItem("cart", JSON.stringify(cart));
+        // updateCartIconCount();
       }
     });
 
-    const buyNow = document.createElement("button");
-    buyNow.textContent = "Buy Now";
-    buyNow.style.marginLeft = "70px";
-    buyNow.addEventListener("click", () => {
+    const buyNowButton = document.createElement("button");
+    buyNowButton.textContent = "Buy Now";
+    buyNowButton.style.marginLeft = "70px";
+    buyNowButton.addEventListener("click", () => {
       window.location.href = "./order.html";
     });
 
@@ -426,9 +441,9 @@ function displayMenuItems(category, items) {
     itemCard.appendChild(itemName);
     itemCard.appendChild(itemPrice);
     itemCard.appendChild(removeButton);
-    itemCard.appendChild(quantity);
+    itemCard.appendChild(quantityDisplay);
     itemCard.appendChild(addButton);
-    itemCard.appendChild(buyNow);
+    itemCard.appendChild(buyNowButton);
 
     container.appendChild(itemCard);
   });
@@ -454,6 +469,9 @@ function bhargavi(category) {
     displayMenuItems("Soups", soups);
   }
 }
+
+// updateCartIconCount();
+
 // let category = localStorage.getItem("category");
 // bhargavi(category);
 localStorage.setItem("cart", JSON.stringify(cart));
