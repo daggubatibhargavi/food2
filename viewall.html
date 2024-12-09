@@ -5,25 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link href="./view.html" />
-    <!-- <style>
-      #viewContainer {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-      .card {
-        border: 1px solid #ccc;
-        padding: 10px;
-        width: 150px;
-        text-align: center;
-      }
-      .card img {
-        width: 100%;
-        height: auto;
-      }
-    </style> -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons.min.css"
+    />
+
+    <link rel="stylesheet" href="./viewall.css" />
   </head>
   <body>
+    <nav>
+      <h2>buy</h2>
+
+      <a href="./index.html">Home</a>
+      <a href=""
+        ><ion-icon name="basket"></ion-icon>cart<span id="cart-count"
+          >0</span
+        ></a
+      >
+    </nav>
     <!-- <a href="./view.html"></a> -->
     <div id="viewContainer"></div>
     <div id="menuContainer"></div>
@@ -33,32 +32,34 @@
         console.log(cartData);
         let viewData;
         try {
-          viewData = JSON.parse(cartData); // Try to parse the data
+          viewData = JSON.parse(cartData);
           console.log("Parsed Data:", viewData);
         } catch (error) {
           console.error("Error parsing data from localStorage:", error);
           return;
         }
 
-          let viewContainer = document.getElementById("viewContainer");
-          viewContainer.innerHTML = "";
+        let viewContainer = document.getElementById("viewContainer");
+        viewContainer.innerHTML = "";
 
-          viewData.forEach((item) => {
-            let card = document.createElement("div");
-            card.innerHTML = `
-        <img src="${item.Image}"/>
+        viewData.forEach((item) => {
+          let card = document.createElement("div");
+          card.innerHTML = `<img src="${item.Image}"/>
         <h3>${item.Name}</h3>
-        <p>Price: ${item.price}</p>
-      `;
+        <p>Price: ${item.price}</p>`;
 
-            viewContainer.appendChild(card);
-            // document.body.appendChild(viewContainer);
-          });
-          console.log("Items rendered:", viewData.length);
-        }
-      
+          viewContainer.appendChild(card);
+          // document.body.appendChild(viewContainer);
+        });
+        console.log("Items rendered:", viewData.length);
+      }
+
       displayItems();
     </script>
     <script src="./view.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
   </body>
 </html>
