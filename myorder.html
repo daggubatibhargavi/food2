@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Orders</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      #ordersContainer {
+        width: 100%;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+      .container h1 {
+        text-align: center;
+      }
+      .order {
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #fafafa;
+      }
+
+      .order h3 {
+        margin: 0 0 15px;
+        font-size: 18px;
+        color: #444;
+      }
+
+      .order-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #eaeaea;
+      }
+
+      .order-item:last-child {
+        border-bottom: none;
+      }
+
+      .order-item p {
+        margin: 0;
+        font-size: 16px;
+        color: #555;
+      }
+
+      .order-item input[type="number"] {
+        width: 50px;
+        padding: 5px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .order-item button {
+        padding: 6px 12px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .order-item button:hover {
+        background-color: #0056b3;
+      }
+
+      #ordersContainer p {
+        text-align: center;
+        font-size: 16px;
+        color: #666;
+      }
+
+      /* .order-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+
+
+      .order-item p {
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+        font-size: 14px;
+      }
+
+
+      button {
+        padding: 8px 16px;
+        font-size: 14px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      button[type="submit"] {
+        background-color: #2196f3;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #0b7dda;
+      } */
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>My Orders</h1>
+      <div id="ordersContainer"></div>
+    </div>
+    <script src="./myorder.js"></script>
+    <script src="./order.js"></script>
+  </body>
+</html>
