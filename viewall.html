@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link href="./view.html" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons.min.css"
@@ -41,17 +40,22 @@
 
         let viewContainer = document.getElementById("viewContainer");
         viewContainer.innerHTML = "";
+        // viewData.forEach((item)
+        // for (let item in viewData)
 
-        viewData.forEach((item) => {
-          let card = document.createElement("div");
-          card.innerHTML = `<img src="${item.Image}"/>
-        <h3>${item.Name}</h3>
-        <p>Price: ${item.price}</p>`;
+        // viewData.forEach((item) => {
+        //   let card = document.createElement("div");
+        //   card.innerHTML = `<img src="${item.Image}"/>
+        // <h3>${item.Name}</h3>
+        // <p>Price: ${item.price}</p>`;
 
-          viewContainer.appendChild(card);
-          // document.body.appendChild(viewContainer);
-        });
-        console.log("Items rendered:", viewData.length);
+        //   viewContainer.appendChild(card);
+        //   // document.body.appendChild(viewContainer);
+        // });
+        for (item in viewData) {
+          console.log(item);
+        }
+        console.log("Items rendered:", viewData?.length);
       }
 
       displayItems();
